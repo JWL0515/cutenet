@@ -11,25 +11,25 @@ export const routes: Routes = [
       {
         path: 'dog',
         loadComponent: () => {
-          return import('./components/dog-shop/dog-shop.component').then((m) => m.DogShopComponent);
+          return import('./dog-shop/dog-shop.component').then((m) => m.DogShopComponent);
         },
       },
       {
         path: 'cat',
         loadComponent: () => {
-          return import('./components/cat-shop/cat-shop.component').then((m) => m.CatShopComponent);
+          return import('./cat-shop/cat-shop.component').then((m) => m.CatShopComponent);
         },
       },
       {
         path: 'account',
         loadComponent: () => {
-          return import('./components/account/account.component').then((m) => m.AccountComponent);
+          return import('./user/user.component').then((m) => m.UserComponent);
         },
       },
       {
         path: 'basket',
         loadComponent: () => {
-          return import('./components/basket/basket.component').then((m) => m.BasketComponent);
+          return import('./basket/basket.component').then((m) => m.BasketComponent);
         },
       },
 ];

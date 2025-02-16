@@ -32,8 +32,12 @@ header {
             right: 20px
         }
 
-        p {
+        span {
             font-weight: bold;
+            cursor: pointer;
+            &:hover {
+                color: #777;
+            }
           }
     }
 }

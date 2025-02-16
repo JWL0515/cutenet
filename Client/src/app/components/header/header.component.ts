@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+    title = 'Cutie Pie';
     constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer){
       this.matIconRegistry.addSvgIcon(
         `dog`,
