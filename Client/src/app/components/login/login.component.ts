@@ -1,11 +1,12 @@
 import {Component, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {merge} from 'rxjs';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,11 +15,19 @@ import {MatButtonModule} from '@angular/material/button';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+  logedin: boolean = false;
   readonly email = new FormControl('', [Validators.required, Validators.email]);
+  readonly password = new FormControl('', [Validators.required]);
+  loginForm = new FormGroup({
+    email: this.email,
+    password:this.password
+  });
 
   errorMessage = signal('');
 
-  constructor() {
+  returnUrl: string;
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || ''
     merge(this.email.statusChanges, this.email.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -38,4 +47,12 @@ export class LoginComponent {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
+
+  onSubmit() {
+    console.log(this.loginForm.value);
+    this.router.navigateByUrl('');
+    this.logedin = true;
+    console.log(this.logedin);
+  }
+  
 }
