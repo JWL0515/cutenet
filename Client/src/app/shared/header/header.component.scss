@@ -1,0 +1,64 @@
+/* .dog-icon {
+    position: absolute;
+    left: 20px;
+    margin-bottom: 5px;
+}
+
+.cat-icon {
+    position: absolute;
+    left: 80px
+}
+
+.user-icon {
+    position: absolute;
+    right: 80px
+}
+
+.basket-icon {
+    position: absolute;
+    right: 20px
+}
+
+.shop-name {
+    text-align: center;
+} */
+
+header {
+    display: flex;
+    padding-inline: 16px;
+    padding-block: 4px;
+    background-color: transparent;
+    align-items: center;
+    justify-content: space-between;
+  
+    nav {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .dog-icon {
+            position: relative;
+            left: 20px;
+        }
+    
+        .cat-icon {
+            position: relative;
+            left: 80px
+        }
+
+        .user-icon {
+            position: relative;
+            right: 80px
+        }
+
+        .basket-icon {
+            position: relative;
+            right: 20px
+        }
+
+        p {
+            font-weight: bold;
+          }
+    }
+}
