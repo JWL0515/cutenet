@@ -14,5 +14,4 @@ import { HeaderComponent } from './components/header/header.component';
   styles: [],
 })
 export class AppComponent {
-  title = 'Client';
 }

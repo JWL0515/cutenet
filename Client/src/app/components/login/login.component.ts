@@ -1,4 +1,4 @@
-import {Component, signal} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -6,7 +6,8 @@ import {MatInputModule} from '@angular/material/input';
 import {merge} from 'rxjs';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Router} from '@angular/router';
+import { LocalService } from '../../services/local.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  logedin: boolean = false;
   readonly email = new FormControl('', [Validators.required, Validators.email]);
   readonly password = new FormControl('', [Validators.required]);
   loginForm = new FormGroup({
@@ -25,9 +25,7 @@ export class LoginComponent {
 
   errorMessage = signal('');
 
-  returnUrl: string;
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || ''
+  constructor() {
     merge(this.email.statusChanges, this.email.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -48,11 +46,12 @@ export class LoginComponent {
     event.stopPropagation();
   }
 
+  router = inject(Router);
+  localservice = inject(LocalService)
   onSubmit() {
     console.log(this.loginForm.value);
+    this.localservice.saveData("userName", "xxxxx")
     this.router.navigateByUrl('');
-    this.logedin = true;
-    console.log(this.logedin);
   }
   
 }

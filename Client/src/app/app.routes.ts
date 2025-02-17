@@ -1,35 +1,27 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        loadComponent: () => {
-          return import('./home/home.component').then((m) => m.HomeComponent);
-        },
+        loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
       },
       {
         path: 'dog',
-        loadComponent: () => {
-          return import('./dog-shop/dog-shop.component').then((m) => m.DogShopComponent);
-        },
+        loadComponent: () => import('./dog-shop/dog-shop.component').then((m) => m.DogShopComponent),
       },
       {
         path: 'cat',
-        loadComponent: () => {
-          return import('./cat-shop/cat-shop.component').then((m) => m.CatShopComponent);
-        },
+        loadComponent: () => import('./cat-shop/cat-shop.component').then((m) => m.CatShopComponent),
       },
       {
         path: 'user',
-        loadComponent: () => {
-          return import('./user/user.component').then((m) => m.UserComponent);
-        },
+       /*  canActivate: [authGuard], */
+        loadChildren: () => import('./user/user.routes').then((m) => m.routes),
       },
       {
         path: 'basket',
-        loadComponent: () => {
-          return import('./basket/basket.component').then((m) => m.BasketComponent);
-        },
+        loadComponent: () => import('./basket/basket.component').then((m) => m.BasketComponent),
       },
 ];

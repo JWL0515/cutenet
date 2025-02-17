@@ -1,44 +1,39 @@
 <div class="user-page">
   <div>
-    @if (logedin) {
-      <p>Loading...</p>
-      }
-    @else {
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
-        <mat-form-field class="email" >
-          <mat-label>Enter your email</mat-label>
-          <input
-            matInput
-            placeholder="pat@example.com"
-            formControlName = "email"
-            (blur)="updateErrorMessage()"
-            required
-          />
-          @if (email.invalid) {
-            <mat-error>{{errorMessage()}}</mat-error>
-          }
-        </mat-form-field>
-        <br/>
-        <mat-form-field class="password">
-          <mat-label>Enter your password</mat-label>
-          <input matInput formControlName = "password" [type]="hide() ? 'password' : 'text'" />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="clickEvent($event)"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide()"
-          >
-            <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-        </mat-form-field>
-        <br/>
-        <button class="login" mat-raised-button type="submit" [disabled]="loginForm.invalid">Log in</button>
-    </form> 
-    <div class="reg-forgot">
-      <button class="register" mat-button>Register</button>
-      <button class="forgot-password" mat-button>Forgot password?</button>
-    </div>
-    }
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+      <mat-form-field class="email" >
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          placeholder="pat@example.com"
+          formControlName = "email"
+          (blur)="updateErrorMessage()"
+          required
+        />
+        @if (email.invalid) {
+          <mat-error>{{errorMessage()}}</mat-error>
+        }
+      </mat-form-field>
+      <br/>
+      <mat-form-field class="password">
+        <mat-label>Enter your password</mat-label>
+        <input matInput formControlName = "password" [type]="hide() ? 'password' : 'text'" />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="clickEvent($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <br/>
+      <button class="login" mat-raised-button type="submit" [disabled]="loginForm.invalid">Log in</button>
+      </form> 
+      <div class="reg-forgot">
+        <button class="register" mat-button>Register</button>
+        <button class="forgot-password" mat-button>Forgot password?</button>
+      </div>
   </div>
 </div>
