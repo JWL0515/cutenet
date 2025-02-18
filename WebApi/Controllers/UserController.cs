@@ -1,6 +1,4 @@
-﻿using Core.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Dtos;
 
@@ -10,24 +8,12 @@ namespace WebApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        public static UserDto userDto = new();
-        private readonly ITokenService _tokenService;
-
-        public UserController(ITokenService tokenService)
+        public static UserDto user = new();
+        [HttpPost("login")]
+        public ActionResult<UserDto> Login(LoginDto loginDto)
         {
-            _tokenService = tokenService;
+            user.Email = loginDto.Email;
+            user.Token = 
         }
-
-        [HttpPost("register")]
-        public ActionResult<UserDto> Register(RegisterDto registerDto)
-        {
-            var hashedPassword = new PasswordHasher<UserDto>().HashPassword(userDto, registerDto.Password);
-
-            userDto.Email = registerDto.Email;
-            userDto.PasswordHash = hashedPassword;
-
-            return Ok(userDto);
-
-        } 
     }
 }
