@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Core.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    class TokenService
+    public class TokenService : ITokenService
     {  
-        public string GenerateToken(Guid userId, string email)
+        public string GenerateToken(string email)
         {
             // 1.step: prepare tokenHandler, credential, claims
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -21,8 +22,6 @@ namespace Infrastructure.Services
             var credential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var claims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // help for validation (like backlist)
-                new(JwtRegisteredClaimNames.Sub, userId.ToString()),
                 new(JwtRegisteredClaimNames.Email, email),
             };
 
