@@ -1,13 +1,7 @@
 ﻿using Core.Interfaces;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace Infrastructure.Services
 {
@@ -17,7 +11,7 @@ namespace Infrastructure.Services
         {
             // 1.step: prepare tokenHandler, credential, claims
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = "replaceThisLaterForMoreSecurity"u8.ToArray();
+            var key = "replaceThisLaterForMoreSecuritymorebitsssssssssssssssssssssss"u8.ToArray();
             var securityKey = new SymmetricSecurityKey(key);
             var credential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var claims = new List<Claim>
