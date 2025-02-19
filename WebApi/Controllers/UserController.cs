@@ -9,30 +9,27 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController(IAuthService authService) : ControllerBase
     {
         public static User user = new();
-        private readonly IAuthService _authService;
-        public UserController(IAuthService authService)
-        {
-            _authService = authService;
-        }
 
         [HttpPost("register")]
-        public ActionResult<User> Register(UserDto request)
+        public async Task<ActionResult<User>> RegisterAsync(UserDto request)
         {
-            var hashedPassword = new PasswordHasher<User>().HashPassword(user, request.Password);
-            user.Email = request.Email;
-            user.PasswordHash = hashedPassword;
+            var user = await authService.RegisterAsync(request);
+            if (user is null) return BadRequest("Username already exists.");
+
             return Ok(user);
         }
+
         [HttpPost("login")]
-        public ActionResult<string> Login(UserDto request)
+        public async Task<ActionResult<string>> LoginAsync(UserDto request)
         {
-            if (user.Email != request.Email) return BadRequest("User not found");
-            if (new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed) return BadRequest("Wrong password");
-            var token = _authService.GenerateToken(user);
-            return Ok(token);
+            var result = await authService.LoginAsync(request);
+            if (result is null)
+                return BadRequest("Invalid username or password.");
+
+            return Ok(result);
         }
     }
 }

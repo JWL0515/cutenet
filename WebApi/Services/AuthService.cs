@@ -1,18 +1,49 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using WebApi.Data;
 using WebApi.Entities;
 using WebApi.Interfaces;
+using WebApi.Models;
 
 namespace WebApi.Services
 {
-    public class AuthService :IAuthService
+    public class AuthService(UserDbContext context) :IAuthService
     {
-        public string GenerateToken(User user)
+        public async Task<User?> RegisterAsync(UserDto request)
+        {
+            if (await context.Users.AnyAsync(u => u.Email == request.Email))
+            {
+                return null;
+            }
+
+            var user = new User();
+            var hashedPassword = new PasswordHasher<User>().HashPassword(user, request.Password);
+            user.Email = request.Email;
+            user.PasswordHash = hashedPassword;
+
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<string?> LoginAsync(UserDto request)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            if (user is null) return null;
+            if (new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed) return null;
+            var token = GenerateToken(user);
+            return token;
+        }
+
+        private string GenerateToken(User user)
         {
             // 1.step: prepare tokenHandler, credential, claims
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = "replaceThisLaterForMoreSecurity"u8.ToArray();
+            var key = "replaceThisLaterForMoreSecurityShouldbeOver256bits"u8.ToArray();
             var securityKey = new SymmetricSecurityKey(key);
             var credential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var claims = new List<Claim>
