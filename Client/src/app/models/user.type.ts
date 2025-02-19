@@ -1,6 +1,6 @@
 export type User = {
     email: string;
-    password: boolean;
+    password: string;
   };
 
 export type Address = {

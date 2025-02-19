@@ -1,0 +1,17 @@
+.user-page {
+    display: flex;
+    justify-content: center;
+    margin-top: 10rem;
+    
+    .email {
+        width: 25rem;
+    }
+
+    .password {
+        width: 25rem;
+    }
+
+    .login {
+        width: 25rem;
+    }
+}

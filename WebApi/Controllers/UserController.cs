@@ -11,8 +11,6 @@ namespace WebApi.Controllers
     [ApiController]
     public class UserController(IAuthService authService) : ControllerBase
     {
-        public static User user = new();
-
         [HttpPost("register")]
         public async Task<ActionResult<User>> RegisterAsync(UserDto request)
         {
@@ -30,6 +28,12 @@ namespace WebApi.Controllers
                 return BadRequest("Invalid username or password.");
 
             return Ok(result);
+        }
+
+        [HttpGet("test")]
+        public string Get()
+        {
+            return "Working";
         }
     }
 }

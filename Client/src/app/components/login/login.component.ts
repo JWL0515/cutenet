@@ -8,6 +8,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {Router} from '@angular/router';
 import { LocalService } from '../../services/local.service';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../../models/user.type';
 
 @Component({
   selector: 'app-login',
@@ -40,6 +42,7 @@ export class LoginComponent {
       this.errorMessage.set('');
     }
   }
+
   hide = signal(true);
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
@@ -47,11 +50,13 @@ export class LoginComponent {
   }
 
   router = inject(Router);
-  localservice = inject(LocalService)
+  localservice = inject(LocalService);
+  http = inject(HttpClient);
   onSubmit() {
-    console.log(this.loginForm.value);
-    this.localservice.saveData("userName", "xxxxx")
-    this.router.navigateByUrl('');
+    this.http.post<User>("https://localhost:7284/api/User/login", this.loginForm.value).subscribe();
+    
+    // this.localservice.saveData("userName", "xxxxx")
+    
   }
   
 }
