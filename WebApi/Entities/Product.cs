@@ -2,14 +2,14 @@
 {
     public class Product
     {
-        public int Id { set; get; }
-        public string Name { set; get; } = string.Empty;
-        public string Description { set; get; } = string.Empty;
-        public string price { set; get; } = string.Empty;
-        public string PictureUrl { set; get; } = string.Empty;
-        public int BrandId { set; get; }
-        //public Brand? Brand { set; get; }
-        public int ProductId { set; get; }
-        //public Category? Category { set; get; }
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string price { get; set; } = string.Empty;
+        public string PictureUrl { get; set; } = string.Empty;
+        public int BrandId { get; set; }
+        public Brand Brand { get; set; } = null!;
+        public int CategoryId { get; set; }
+        public Category Category { get; set; } = null!;
     }
 }
