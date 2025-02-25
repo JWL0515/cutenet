@@ -13,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("UserDatabase")));
+builder.Services.AddDbContext<ProductDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("ProductDatabase")));
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
