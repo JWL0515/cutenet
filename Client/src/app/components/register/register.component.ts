@@ -18,7 +18,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-readonly email = new FormControl('', [Validators.required, Validators.email]);
+  readonly email = new FormControl('', [Validators.required, Validators.email]);
   readonly password = new FormControl('', [Validators.required]);
   loginForm = new FormGroup({
     email: this.email,

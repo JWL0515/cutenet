@@ -27,7 +27,7 @@ namespace WebApi.Controllers
             if (result is null)
                 return BadRequest("Invalid username or password.");
 
-            return Ok(result);
+            return Ok("success");
         }
 
         [HttpGet("test")]

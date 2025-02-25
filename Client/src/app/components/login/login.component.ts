@@ -9,7 +9,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {Router} from '@angular/router';
 import { LocalService } from '../../services/local.service';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../../models/user.type';
 
 @Component({
   selector: 'app-login',
@@ -52,10 +51,12 @@ export class LoginComponent {
   router = inject(Router);
   localservice = inject(LocalService);
   http = inject(HttpClient);
+
   onSubmit() {
-    this.http.post<User>("https://localhost:7284/api/User/login", this.loginForm.value).subscribe();
+    // this.http.post<User>("https://localhost:7284/api/User/login", this.loginForm.value).subscribe();
+    this.http.post("https://localhost:7284/api/User/login", this.loginForm.value, {responseType: "text"}).subscribe();
     
-    // this.localservice.saveData("userName", "xxxxx")
+    this.localservice.saveData("userName", "xxxxx")
     
   }
   

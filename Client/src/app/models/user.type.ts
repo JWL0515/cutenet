@@ -4,8 +4,7 @@ export type User = {
   };
 
 export type Address = {
-    firstName: string;
-    lastName: string;
+    name: string;
     street: string;
     city: string;
     zipcode: string;
