@@ -12,7 +12,7 @@ namespace WebApi.Controllers
     public class UserController(IAuthService authService) : ControllerBase
     {
         [HttpPost("register")]
-        public async Task<ActionResult<User>> RegisterAsync(UserDto request)
+        public async Task<ActionResult<AppUser>> RegisterAsync(UserDto request)
         {
             var user = await authService.RegisterAsync(request);
             if (user is null) return BadRequest("Username already exists.");

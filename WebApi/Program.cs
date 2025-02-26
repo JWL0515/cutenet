@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using WebApi.Data;
+using WebApi.Entities;
 using WebApi.Interfaces;
 using WebApi.Services;
 
@@ -12,8 +14,17 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("UserDatabase")));
+builder.Services.AddDbContext<AppUserDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("AppUserDatabase")));
 builder.Services.AddDbContext<ProductDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("ProductDatabase")));
+
+builder.Services.AddIdentityCore<AppUser>(opt =>
+{
+    // add identity options here
+})
+    .AddEntityFrameworkStores<AppUserDbContext>()
+    .AddSignInManager<SignInManager<AppUser>>();
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 

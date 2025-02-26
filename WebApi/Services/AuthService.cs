@@ -10,17 +10,17 @@ using WebApi.Models;
 
 namespace WebApi.Services
 {
-    public class AuthService(UserDbContext context) :IAuthService
+    public class AuthService(AppUserDbContext context) :IAuthService
     {
-        public async Task<User?> RegisterAsync(UserDto request)
+        public async Task<AppUser?> RegisterAsync(UserDto request)
         {
             if (await context.Users.AnyAsync(u => u.Email == request.Email))
             {
                 return null;
             }
 
-            var user = new User();
-            var hashedPassword = new PasswordHasher<User>().HashPassword(user, request.Password);
+            var user = new AppUser();
+            var hashedPassword = new PasswordHasher<AppUser>().HashPassword(user, request.Password);
             user.Email = request.Email;
             user.PasswordHash = hashedPassword;
 
@@ -34,12 +34,12 @@ namespace WebApi.Services
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
             if (user is null) return null;
-            if (new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed) return null;
+            if (new PasswordHasher<AppUser>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed) return null;
             var token = GenerateToken(user);
             return token;
         }
 
-        private string GenerateToken(User user)
+        private string GenerateToken(AppUser user)
         {
             // 1.step: prepare tokenHandler, credential, claims
             var tokenHandler = new JwtSecurityTokenHandler();
