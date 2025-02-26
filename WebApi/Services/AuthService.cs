@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,36 +11,25 @@ using WebApi.Models;
 
 namespace WebApi.Services
 {
-    public class AuthService(AppUserDbContext context) :IAuthService
+    public class AuthService(AppUserDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) :IAuthService
     {
-        public async Task<AppUser?> RegisterAsync(UserDto request)
-        {
-            if (await context.Users.AnyAsync(u => u.Email == request.Email))
-            {
-                return null;
-            }
+        
 
-            var user = new AppUser();
-            var hashedPassword = new PasswordHasher<AppUser>().HashPassword(user, request.Password);
-            user.Email = request.Email;
-            user.PasswordHash = hashedPassword;
-
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
-
-            return user;
-        }
-
-        public async Task<string?> LoginAsync(UserDto request)
+        public async Task<UserDto?> LoginAsync(LoginDto request)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
             if (user is null) return null;
-            if (new PasswordHasher<AppUser>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed) return null;
+            var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             var token = GenerateToken(user);
-            return token;
+
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = GenerateToken(user)
+            };
         }
 
-        private string GenerateToken(AppUser user)
+        public string GenerateToken(AppUser user)
         {
             // 1.step: prepare tokenHandler, credential, claims
             var tokenHandler = new JwtSecurityTokenHandler();

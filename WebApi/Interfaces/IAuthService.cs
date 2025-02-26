@@ -5,7 +5,7 @@ namespace WebApi.Interfaces
 {
     public interface IAuthService
     {
-        Task<AppUser?> RegisterAsync(UserDto request);
-        Task<string?> LoginAsync(UserDto request);
+        string GenerateToken(AppUser user);
+        Task<UserDto?> LoginAsync(LoginDto request);
     }
 }
