@@ -36,5 +36,15 @@ namespace WebApi.Controllers
             return "Working";
         }
 
+        [HttpPost("address")]
+        public async Task<ActionResult<string>> AddressAsync(AddressDto request)
+        {
+            var result = await authService.LoginAsync(request);
+            if (result is null)
+                return BadRequest("Invalid username or password.");
+
+            return Ok("success");
+        }
+
     }
 }
