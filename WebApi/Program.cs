@@ -28,7 +28,11 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+// To use AutoMapper
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// For Angular
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("CorsPolicy", policy =>

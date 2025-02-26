@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using WebApi.Data;
 using WebApi.Entities;
 using WebApi.Interfaces;
@@ -10,11 +12,14 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(IAuthService authService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, AppUserDbContext context) : ControllerBase
+    public class UserController(IAuthService authService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, AppUserDbContext context,
+        IMapper mapper) : ControllerBase
     {
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> RegisterAsync(RegisterDto request)
         {
+            // TODO: change using context to using UserManager
+            // TODO: handle error
             if (await context.Users.AnyAsync(u => u.Email == request.Email))
             {
                 return null;
@@ -41,6 +46,8 @@ namespace WebApi.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> LoginAsync(LoginDto request)
         {
+            // TODO: change using context to using UserManager
+            // TODO: handle error
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (user is null) return null;
@@ -55,20 +62,22 @@ namespace WebApi.Controllers
             };
         }
 
-        [HttpGet("test")]
-        public string Get()
-        {
-            return "Working";
-        }
-
         [HttpPut("address")]
-        public async Task<ActionResult<string>> AddressAsync(AddressDto request)
+        public async Task<ActionResult<AddressDto>> UpdateAddressAsync(AddressDto request)
         {
             //var result = await authService.LoginAsync(request);
             //if (result is null)
             //    return BadRequest("Invalid username or password.");
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == "test1@gmail.com");
+            //var user = await userManager.FindByEmailAsync("test1@gmail.com");
 
-            return Ok("success");
+            user.Address = mapper.Map<AddressDto, Address>(request);
+
+            var result = await userManager.UpdateAsync(user);
+
+            if (!result.Succeeded) return BadRequest("Problem updating the user");
+
+            return Ok();
         }
 
     }
