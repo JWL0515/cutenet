@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Security.Claims;
 using WebApi.Data;
 using WebApi.Entities;
 using WebApi.Interfaces;
@@ -15,6 +17,7 @@ namespace WebApi.Controllers
     public class UserController(IAuthService authService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, AppUserDbContext context,
         IMapper mapper) : ControllerBase
     {
+        
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> RegisterAsync(RegisterDto request)
         {
@@ -43,6 +46,7 @@ namespace WebApi.Controllers
             };
         }
 
+        
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> LoginAsync(LoginDto request)
         {
@@ -62,14 +66,16 @@ namespace WebApi.Controllers
             };
         }
 
+        [Authorize]
         [HttpPut("address")]
         public async Task<ActionResult<AddressDto>> UpdateAddressAsync(AddressDto request)
         {
             //var result = await authService.LoginAsync(request);
             //if (result is null)
             //    return BadRequest("Invalid username or password.");
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == "test1@gmail.com");
-            //var user = await userManager.FindByEmailAsync("test1@gmail.com");
+            //var user = await context.Users.FirstOrDefaultAsync(u => u.Email == "test1@gmail.com");
+            var email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await userManager.FindByEmailAsync(email);
 
             user.Address = mapper.Map<AddressDto, Address>(request);
 
