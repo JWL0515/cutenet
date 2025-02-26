@@ -25,6 +25,7 @@ namespace WebApi.Controllers
                 // Username is required
                 UserName = request.Email
             };
+
             // Password will be automatic hashed
             var result = await userManager.CreateAsync(user, request.Password);
 
@@ -40,11 +41,18 @@ namespace WebApi.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> LoginAsync(LoginDto request)
         {
-            var result = await authService.LoginAsync(request);
-            if (result is null)
-                return BadRequest("Invalid username or password.");
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
-            return Ok("success");
+            if (user is null) return null;
+            var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
+            if (!result.Succeeded) return BadRequest();
+
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = authService.GenerateToken(user)
+            };
         }
 
         [HttpGet("test")]

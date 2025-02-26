@@ -11,24 +11,8 @@ using WebApi.Models;
 
 namespace WebApi.Services
 {
-    public class AuthService(AppUserDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) :IAuthService
+    public class AuthService : IAuthService
     {
-        
-
-        public async Task<UserDto?> LoginAsync(LoginDto request)
-        {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
-            if (user is null) return null;
-            var result = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-            var token = GenerateToken(user);
-
-            return new UserDto
-            {
-                Email = user.Email,
-                Token = GenerateToken(user)
-            };
-        }
-
         public string GenerateToken(AppUser user)
         {
             // 1.step: prepare tokenHandler, credential, claims
