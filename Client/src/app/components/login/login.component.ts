@@ -9,6 +9,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {Router} from '@angular/router';
 import { LocalService } from '../../services/local.service';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../../models/user.type';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -49,15 +51,22 @@ export class LoginComponent {
   }
 
   router = inject(Router);
-  localservice = inject(LocalService);
+  localService = inject(LocalService);
   http = inject(HttpClient);
-
+  authService = inject(AuthService);
   onSubmit() {
-    // this.http.post<User>("https://localhost:7284/api/User/login", this.loginForm.value).subscribe();
-    this.http.post("https://localhost:7284/api/User/login", this.loginForm.value, {responseType: "text"}).subscribe();
-    
-    this.localservice.saveData("userName", "xxxxx")
-    
+    // this.http.post<{user:User}>("https://localhost:7284/api/User/login", {user:this.loginForm.value})
+    // .subscribe((response) => {console.log('response', response);
+    //   localStorage.setItem('token', response.user.token);
+    //   this.authService.currentUserSig.set(response.user);
+    //   this.router.navigateByUrl('/');
+    // });
+    this.http.post<User>("https://localhost:7284/api/User/login", this.loginForm.value)
+    .subscribe((response) => {console.log('response', response);
+      localStorage.setItem("token", response.token);
+      this.authService.currentUserSig.set(response);
+      this.router.navigateByUrl('/');
+    });
   }
   
 }

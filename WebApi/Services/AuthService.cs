@@ -22,8 +22,6 @@ namespace WebApi.Services
             var credential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var claims = new List<Claim>
             {
-                //new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // help for validation (like backlist)
-                //new(JwtRegisteredClaimNames.Sub, userId.ToString()),
                 new(JwtRegisteredClaimNames.Email, user.Email),
             };
             // 2.step: prepare tokenDescriptor
