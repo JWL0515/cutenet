@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,36 +11,9 @@ using WebApi.Models;
 
 namespace WebApi.Services
 {
-    public class AuthService(UserDbContext context) :IAuthService
+    public class AuthService : IAuthService
     {
-        public async Task<User?> RegisterAsync(UserDto request)
-        {
-            if (await context.Users.AnyAsync(u => u.Email == request.Email))
-            {
-                return null;
-            }
-
-            var user = new User();
-            var hashedPassword = new PasswordHasher<User>().HashPassword(user, request.Password);
-            user.Email = request.Email;
-            user.PasswordHash = hashedPassword;
-
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
-
-            return user;
-        }
-
-        public async Task<string?> LoginAsync(UserDto request)
-        {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
-            if (user is null) return null;
-            if (new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password) == PasswordVerificationResult.Failed) return null;
-            var token = GenerateToken(user);
-            return token;
-        }
-
-        private string GenerateToken(User user)
+        public string GenerateToken(AppUser user)
         {
             // 1.step: prepare tokenHandler, credential, claims
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -48,8 +22,6 @@ namespace WebApi.Services
             var credential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var claims = new List<Claim>
             {
-                //new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // help for validation (like backlist)
-                //new(JwtRegisteredClaimNames.Sub, userId.ToString()),
                 new(JwtRegisteredClaimNames.Email, user.Email),
             };
             // 2.step: prepare tokenDescriptor

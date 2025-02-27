@@ -12,8 +12,8 @@ namespace WebApi.Entities
         //public string Country { get; set; } = string.Empty;
 
         // one-to-one relationship
-        public Guid UserId { get; set; }
-        public User User { get; set; } = null!;
+        public required string AppUserId { get; set; }
+        public AppUser User { get; set; } = null!;
         
     }
 }

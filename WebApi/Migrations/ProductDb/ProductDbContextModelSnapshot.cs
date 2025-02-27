@@ -6,7 +6,7 @@ using WebApi.Data;
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace WebApi.Migrations.ProductDb
 {
     [DbContext(typeof(ProductDbContext))]
     partial class ProductDbContextModelSnapshot : ModelSnapshot

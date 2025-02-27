@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace WebApi.Migrations.ProductDb
 {
     /// <inheritdoc />
-    public partial class intilaproduct : Migration
+    public partial class initialProduct : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

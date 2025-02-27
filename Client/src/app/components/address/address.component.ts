@@ -6,6 +6,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { LocalService } from '../../services/local.service';
 import { Router } from '@angular/router';
+import { Address } from '../../models/user.type';
 
 @Component({
   selector: 'app-address',
@@ -30,8 +31,8 @@ export class AddressComponent {
   http = inject(HttpClient);
  
   onSubmit() {
-    // this.http.post("https://localhost:7284/api/User/login", this.addressForm.value).subscribe();
-    this.router.navigateByUrl("");
+    this.http.put<Address>("https://localhost:7284/api/User/address", this.addressForm.value).subscribe();
+    // this.router.navigateByUrl("");
   }
  
 }

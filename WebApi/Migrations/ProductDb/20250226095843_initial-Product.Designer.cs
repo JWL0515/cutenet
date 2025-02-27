@@ -7,11 +7,11 @@ using WebApi.Data;
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace WebApi.Migrations.ProductDb
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20250225075158_intila-product")]
-    partial class intilaproduct
+    [Migration("20250226095843_initial-Product")]
+    partial class initialProduct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
