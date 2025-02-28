@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 using WebApi.Data;
 using WebApi.Entities;
 using WebApi.Interfaces;
@@ -11,15 +13,15 @@ using WebApi.Models;
 
 namespace WebApi.Services
 {
-    public class AuthService : IAuthService
+    public class AuthService(IConfiguration configuration) : IAuthService
     {
         public string GenerateToken(AppUser user)
         {
             // 1.step: prepare tokenHandler, credential, claims
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = "replaceThisLaterForMoreSecurityShouldbeOver256bits"u8.ToArray();
-            var securityKey = new SymmetricSecurityKey(key);
-            var credential = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(configuration.GetValue<string>("AppSettings:Token")!));
+            var credential = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Email, user.Email),

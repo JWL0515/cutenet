@@ -33,6 +33,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            ValidateAudience = false,
             ValidateIssuer = true,
             ValidIssuer = builder.Configuration["AppSettings:Issuer"],
             ValidateLifetime = true,

@@ -73,9 +73,9 @@ namespace WebApi.Controllers
             //var result = await authService.LoginAsync(request);
             //if (result is null)
             //    return BadRequest("Invalid username or password.");
-            //var user = await context.Users.FirstOrDefaultAsync(u => u.Email == "test1@gmail.com");
+            
             var email = User.FindFirstValue(ClaimTypes.Email);
-            var user = await userManager.FindByEmailAsync(email);
+            var user = await context.Users.Include(x => x.Address).FirstOrDefaultAsync(u => u.Email == email);
 
             user.Address = mapper.Map<AddressDto, Address>(request);
 
