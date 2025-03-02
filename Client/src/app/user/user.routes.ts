@@ -8,6 +8,7 @@ export const routes: Route[] = [
     // if logged then shows Address on ../user
     {
         path: '',
+        // TODO: BUG fix: after refreshing, user will be loggedout
         canActivate: [authGuard],
         component: UserComponent,
     },
