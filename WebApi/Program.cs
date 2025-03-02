@@ -18,7 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppUserDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("AppUserDatabase")));
-builder.Services.AddDbContext<ProductDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("ProductDatabase")));
+builder.Services.AddDbContext<DogProductDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DogProductDatabase")));
 
 builder.Services.AddIdentityCore<AppUser>(opt =>
 {

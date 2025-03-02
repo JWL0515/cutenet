@@ -3,7 +3,7 @@ using WebApi.Entities;
 
 namespace WebApi.Data
 {
-    public class ProductDbContext(DbContextOptions<ProductDbContext> options) : DbContext(options)
+    public class DogProductDbContext(DbContextOptions<DogProductDbContext> options) : DbContext(options)
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Brand> Brands { get; set; }
