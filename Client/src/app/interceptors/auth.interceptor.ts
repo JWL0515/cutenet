@@ -3,8 +3,8 @@ import { inject } from '@angular/core';
 import { LocalService } from '../services/local.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const localservice = inject(LocalService);
-  const token = localservice.getData('token');
+  const localService = inject(LocalService);
+  const token = localService.getData('token');
 
   if(token) {
     const cloned = req.clone({

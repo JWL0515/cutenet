@@ -31,8 +31,9 @@ export class AddressComponent {
   http = inject(HttpClient);
  
   onSubmit() {
-    this.http.put<Address>("https://localhost:7284/api/User/address", this.addressForm.value).subscribe();
-    // this.router.navigateByUrl("");
+    this.http.put<Address>("https://localhost:7284/api/User/address", this.addressForm.value).subscribe({
+      next: () => this.router.navigateByUrl('/')
+    });
   }
  
 }
