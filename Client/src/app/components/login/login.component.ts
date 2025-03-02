@@ -55,18 +55,11 @@ export class LoginComponent {
   http = inject(HttpClient);
   authService = inject(AuthService);
   onSubmit() {
-    // this.http.post<{user:User}>("https://localhost:7284/api/User/login", {user:this.loginForm.value})
-    // .subscribe((response) => {console.log('response', response);
-    //   localStorage.setItem('token', response.user.token);
-    //   this.authService.currentUserSig.set(response.user);
-    //   this.router.navigateByUrl('/');
-    // });
     this.http.post<User>("https://localhost:7284/api/User/login", this.loginForm.value)
     .subscribe((response) => {console.log('response', response);
-      localStorage.setItem("token", response.token);
+      this.localService.saveData("token", response.token);
       this.authService.currentUserSig.set(response);
       this.router.navigateByUrl('/');
     });
   }
-  
 }
