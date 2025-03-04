@@ -5,7 +5,7 @@
 namespace WebApi.Migrations.DogProductDb
 {
     /// <inheritdoc />
-    public partial class initialdogproduct : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,7 +44,7 @@ namespace WebApi.Migrations.DogProductDb
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Price = table.Column<string>(type: "TEXT", nullable: false),
+                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
                     PictureUrl = table.Column<string>(type: "TEXT", nullable: false),
                     BrandId = table.Column<int>(type: "INTEGER", nullable: false),
                     CategoryId = table.Column<int>(type: "INTEGER", nullable: false)

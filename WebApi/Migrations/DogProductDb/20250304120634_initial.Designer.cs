@@ -10,8 +10,8 @@ using WebApi.Data;
 namespace WebApi.Migrations.DogProductDb
 {
     [DbContext(typeof(DogProductDbContext))]
-    [Migration("20250302190802_initial-dogproduct")]
-    partial class initialdogproduct
+    [Migration("20250304120634_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,8 +73,7 @@ namespace WebApi.Migrations.DogProductDb
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Price")
-                        .IsRequired()
+                    b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
