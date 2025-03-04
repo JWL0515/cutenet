@@ -9,11 +9,11 @@ export const routes: Routes = [
       },
       {
         path: 'dog',
-        loadComponent: () => import('./dog-shop/dog-shop.component').then((m) => m.DogShopComponent),
+        loadComponent: () => import('./shop-dog/shop-dog.component').then((m) => m.ShopDogComponent),
       },
       {
         path: 'cat',
-        loadComponent: () => import('./cat-shop/cat-shop.component').then((m) => m.CatShopComponent),
+        loadComponent: () => import('./shop-cat/shop-cat.component').then((m) => m.ShopCatComponent),
       },
       {
         path: 'user',
