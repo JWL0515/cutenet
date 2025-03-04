@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Data;
 using WebApi.Entities;
+using WebApi.Helpers;
 using WebApi.Query;
 
 namespace WebApi.Controllers
@@ -14,7 +15,8 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetAllProducts([FromQuery] ProductQueryParameters queryParameters)
         {
-            IQueryable<Product> products = context.Products;
+            IQueryable<Product> products = context.Products.Include(p => p.Brand)
+                .Include(p => p.Category);
 
             // filter
             if (queryParameters.MinPrice != null)
@@ -36,17 +38,23 @@ namespace WebApi.Controllers
                 products = products.Where(p => p.Category.Name.ToLower() == queryParameters.Category.ToLower());
             }
 
-
+            // sort
+            if (!string.IsNullOrEmpty(queryParameters.SortBy))
+            {
+                if (typeof(Product).GetProperty(queryParameters.SortBy) != null)
+                {
+                    products = products.OrderByCustom(
+                        queryParameters.SortBy,
+                        queryParameters.SortOrder);
+                }
+            }
 
             // paginate
             products = products
-            .Skip(queryParameters.Size * (queryParameters.Page - 1))
-            .Take(queryParameters.Size);
+            .Skip(queryParameters.PageSize * (queryParameters.Page - 1))
+            .Take(queryParameters.PageSize);
 
-            return Ok(await products
-                .Include(p => p.Brand)
-                .Include(p => p.Category)
-                .ToListAsync());
+            return Ok(await products.ToListAsync());
         }
     }
 }
