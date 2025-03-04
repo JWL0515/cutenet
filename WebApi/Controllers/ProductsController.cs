@@ -26,6 +26,18 @@ namespace WebApi.Controllers
                 products = products.Where(p => p.Price <= queryParameters.MaxPrice.Value);
             }
 
+            // search
+            if (!string.IsNullOrEmpty(queryParameters.Brand))
+            {
+                products = products.Where(p => p.Brand.Name.ToLower() == queryParameters.Brand.ToLower());
+            }
+            if (!string.IsNullOrEmpty(queryParameters.Category))
+            {
+                products = products.Where(p => p.Category.Name.ToLower() == queryParameters.Category.ToLower());
+            }
+
+
+
             // paginate
             products = products
             .Skip(queryParameters.Size * (queryParameters.Page - 1))
