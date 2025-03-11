@@ -55,7 +55,7 @@ export class LoginComponent {
   http = inject(HttpClient);
   authService = inject(AuthService);
   onSubmit() {
-    this.http.post<User>("https://localhost:7284/api/User/login", this.loginForm.value)
+    this.http.post<User>("https://localhost:5000/api/User/login", this.loginForm.value)
     .subscribe((response) => {console.log('response', response);
       this.localService.saveData("token", response.token);
       this.authService.currentUserSig.set(response);

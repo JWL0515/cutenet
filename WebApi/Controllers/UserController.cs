@@ -17,6 +17,12 @@ namespace WebApi.Controllers
     public class UserController(IAuthService authService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, AppUserDbContext context,
         IMapper mapper) : ControllerBase
     {
+        [HttpGet("test")]
+        public async Task<string> Testing()
+        {
+            return ("Successful");
+        }
+          
         
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> RegisterAsync(RegisterDto request)

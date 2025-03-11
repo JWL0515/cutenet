@@ -4,7 +4,7 @@
     {
         // paginate
         // number of items in 1 page
-        const int _maxSize = 9;
+        const int _maxSize = 50;
         private int _pageSize = 3;
         public int PageSize {
             get => _pageSize;

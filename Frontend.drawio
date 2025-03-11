@@ -1,0 +1,40 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.16 Chrome/132.0.6834.196 Electron/34.2.0 Safari/537.36" version="26.0.16">
+  <diagram name="Seite-1" id="Dk-r6mGFm77RKYci7Tan">
+    <mxGraphModel dx="1434" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ZiCSWij1W9SqeEGX558K-1" value="&lt;h2&gt;APP&lt;/h2&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="185" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZiCSWij1W9SqeEGX558K-2" value="&lt;h1&gt;&lt;b&gt;Components&lt;/b&gt;&lt;/h1&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="160" y="110" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="ZiCSWij1W9SqeEGX558K-3" value="&lt;h2&gt;Header&lt;/h2&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="30" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZiCSWij1W9SqeEGX558K-4" value="&lt;h2&gt;RouterOutlet&lt;/h2&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZiCSWij1W9SqeEGX558K-15" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="557" width="270" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="ZiCSWij1W9SqeEGX558K-11" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ZiCSWij1W9SqeEGX558K-15">
+          <mxGeometry y="30" width="270" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="ZiCSWij1W9SqeEGX558K-12" value="RouterOutlet" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ZiCSWij1W9SqeEGX558K-15">
+          <mxGeometry x="20" y="100" width="240" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="ZiCSWij1W9SqeEGX558K-13" value="Header" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ZiCSWij1W9SqeEGX558K-15">
+          <mxGeometry x="20" y="40" width="240" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ZiCSWij1W9SqeEGX558K-14" value="App" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="ZiCSWij1W9SqeEGX558K-15">
+          <mxGeometry x="110" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ZiCSWij1W9SqeEGX558K-16" value="&lt;h2&gt;Home&lt;/h2&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="410" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

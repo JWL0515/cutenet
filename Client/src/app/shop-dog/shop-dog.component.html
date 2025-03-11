@@ -10,7 +10,51 @@
         </section>
     </div>
 </div> -->
+<!-- <mat-grid-list cols="2" >
+  <mat-grid-tile colspan="1">1</mat-grid-tile>
+  <mat-grid-tile colspan="4">
+      <ul class="mdc-image-list my-image-list">
+          @for (product of products; track product.id) {
+              <li class="mdc-image-list__item">
+                  <div class="mdc-image-list__image-aspect-container">
+                    <img class="mdc-image-list__image" src="images/1.jpg">
+                  </div>
+                  <div class="mdc-image-list__supporting">
+                    <span class="mdc-image-list__label">{{product.name}}</span>
+                  </div>
+                </li>
+          }
+          
+        </ul>
+  </mat-grid-tile>
+</mat-grid-list> -->
+  
+<mat-grid-list cols="12" rowHeight="1:5">
+  <mat-grid-tile colspan="3">1</mat-grid-tile>
+  <mat-grid-tile colspan="9">
+    <ul class="mdc-image-list my-image-list">
+      @for (product of products; track product.id) {
+          <li class="mdc-image-list__item my-list__item">
+              <div class="mdc-image-list__image-aspect-container">
+                <img class="mdc-image-list__image" src="images/1.jpg">
+              </div>
+              <div class="mdc-image-list__supporting">
+                <span class="mdc-image-list__label">{{product.name}}</span>
+              </div>
+          </li>
+      }
+      
+    </ul>
+  </mat-grid-tile>
+</mat-grid-list>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                [pageSize]="4"
+                [length]="12"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements"
+                 [pageIndex]="currentPage"
+                 (page)="handlePageEvent($event)">
+  </mat-paginator>
 
-<div>
-   {{products.values}}
-</div>
+
+
