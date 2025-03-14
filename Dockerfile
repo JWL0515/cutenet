@@ -27,4 +27,8 @@ RUN dotnet publish "./WebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+RUN mkdir -p /app/Certificates
+COPY WebApi/Certificates/aspnetapp.pfx /app/Certificates/
+
 ENTRYPOINT ["dotnet", "WebApi.dll"]

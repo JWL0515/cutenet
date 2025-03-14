@@ -49,7 +49,7 @@ export class ShopDogComponent implements OnInit {
     //     console.log('response', response);
     //     this.products = response;
     //   });
-    return this.http.get<DogProduct[]>('https://localhost:7284/api/Products', {params:this.params}).subscribe(
+    return this.http.get<DogProduct[]>('https://localhost:5000/api/Products', {params:this.params}).subscribe(
     (response) => { 
       console.log('response', response);
       this.products = response;
