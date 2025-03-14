@@ -70,8 +70,7 @@ namespace WebApi.Migrations.DogProductDb
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Price")
-                        .IsRequired()
+                    b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

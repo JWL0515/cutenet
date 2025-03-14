@@ -57,6 +57,8 @@ builder.Services.AddCors(opt =>
     });
 });
 
+//builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,6 +69,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//app.UseStaticFiles();
+//app.UseHealthChecks("/health");
 
 app.UseCors("CorsPolicy");
 
