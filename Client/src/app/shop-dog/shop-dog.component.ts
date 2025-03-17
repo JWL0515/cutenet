@@ -6,6 +6,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { QueryParameter } from '../models/queryParameter';
 import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { Observable, map } from 'rxjs';
+import { Pagination } from '../models/pagination.type';
 
 @Component({
   selector: 'app-shop-dog',
@@ -14,9 +16,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
   styleUrl: './shop-dog.component.scss'
 })
 export class ShopDogComponent implements OnInit {
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-  // products = signal<Array<DogProduct>>([])
   currentPage = 0;
+  pageSize =3;
   products: DogProduct[] = [];
   brands: DogBrand[] = [];
   categories: DogCategory[] = [];
@@ -26,33 +27,40 @@ export class ShopDogComponent implements OnInit {
   ]
   queryparams = new QueryParameter();
 
-  params = new HttpParams();
-
   handlePageEvent(pageEvent: PageEvent) {
     console.log('handlePageEvent', pageEvent);
+    this.pageSize = pageEvent.pageSize;
     this.currentPage = pageEvent.pageIndex;
+    console.log('currentPage', this.currentPage);
+    console.log('pageSize', pageEvent.pageSize);
+    this.getProducts(this.currentPage, this.pageSize).subscribe(
+      {next:(response) => { 
+        console.log('response', response);
+        console.log('products', this.products);}}
+      );
   }
   
   ngOnInit(): void {
-    // this.getProducts();
+    this.getProducts(this.currentPage, this.pageSize).subscribe(
+      response => { 
+        console.log('response', response);
+        console.log('products', this.products);
+    
+    })
     // this.products.paginator = this.paginator;
   }
 
   http = inject(HttpClient);
-
-  getProducts() {
-    this.params = this.params.append('page', this.queryparams.page);
-    this.params = this.params.append('pageSize', 10); 
-    this.params = this.params.append('sort', this.queryparams.sortBy); 
-    // return this.http.get<DogProduct[]>('https://localhost:7284/api/Products').subscribe(
-    //   (response) => { 
-    //     console.log('response', response);
-    //     this.products = response;
-    //   });
-    return this.http.get<DogProduct[]>('https://localhost:5000/api/Products', {params:this.params}).subscribe(
-    (response) => { 
-      console.log('response', response);
-      this.products = response;
-    });
+  // pagination?: Pagination<DogProduct[]>;
+  getProducts(pageIndex:number, pageSize:number):Observable<DogProduct[]> {
+    let params = new HttpParams();
+    params = params.append('page', pageIndex+1);
+    console.log("getProduts-pageIndex", pageIndex+1)
+    params = params.append('pageSize', pageSize); 
+    // params = params.append('sort', this.queryparams.sortBy); 
+    console.log(params)
+    return this.http.get<DogProduct[]>('https://localhost:7284/api/Products', {params:params})
+    .pipe(map(response => this.products=response))
   }
 }
+
