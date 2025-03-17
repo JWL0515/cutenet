@@ -1,60 +1,39 @@
-<!-- <div class="container">
-    <div class="row">
-        side filter
-        <section class="col-3">
-            col-3
-        </section>
-        product list
-        <section class="col-9">
-            col-9
-        </section>
-    </div>
-</div> -->
-<!-- <mat-grid-list cols="2" >
-  <mat-grid-tile colspan="1">1</mat-grid-tile>
-  <mat-grid-tile colspan="4">
-      <ul class="mdc-image-list my-image-list">
-          @for (product of products; track product.id) {
-              <li class="mdc-image-list__item">
-                  <div class="mdc-image-list__image-aspect-container">
-                    <img class="mdc-image-list__image" src="images/1.jpg">
-                  </div>
-                  <div class="mdc-image-list__supporting">
-                    <span class="mdc-image-list__label">{{product.name}}</span>
-                  </div>
-                </li>
-          }
-          
-        </ul>
-  </mat-grid-tile>
-</mat-grid-list> -->
-  
-<mat-grid-list cols="12" rowHeight="1:5">
-  <mat-grid-tile colspan="3">1</mat-grid-tile>
-  <mat-grid-tile colspan="9">
-    <ul class="mdc-image-list my-image-list">
-      @for (product of products; track product.id) {
-          <li class="mdc-image-list__item my-list__item">
-              <div class="mdc-image-list__image-aspect-container">
-                <img class="mdc-image-list__image" src="images/1.jpg">
-              </div>
-              <div class="mdc-image-list__supporting">
-                <span class="mdc-image-list__label">{{product.name}}</span>
-              </div>
-          </li>
+<div class="row">
+  <section class="col-3 mt-2">
+  </section>
+  <section class="col-9">
+    <div class="row row-cols-3 g-3 mb-4">
+      <!-- loop each product -->
+      @for (product of products; track product.id){
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="image position-relative" style="cursor: pointer;">
+              <img src="images/1.jpg" class="img-fluid">
+            </div>
+            <div class="card-body d-flex flex-column">
+                <a href="" class="text-decoration-none">
+                    <h6 class="text-uppercase">
+                        {{product.name}}
+                    </h6>
+                </a>
+            </div>
+          </div>
+        </div>
       }
-      
-    </ul>
-  </mat-grid-tile>
-</mat-grid-list>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                [pageSize]="pageSize"
-                [length]="12"
-                 showFirstLastButtons
-                 aria-label="Select page of periodic elements"
-                 [pageIndex]="currentPage"
-                 (page)="handlePageEvent($event)">
-  </mat-paginator>
+    </div>
+    <div>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                    [pageSize]="pageSize"
+                    [length]="12"
+                    showFirstLastButtons
+                    aria-label="Select page of periodic elements"
+                    [pageIndex]="currentPage"
+                    (page)="handlePageEvent($event)">
+      </mat-paginator>
+    </div>
+  </section>
+</div>
+
 
 
 
