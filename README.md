@@ -1,7 +1,7 @@
 # Dog and Cat cloths Shopping Website 
 > Backend: C#, .Net Core, ASP.NET, Entity Framework Core, JWT; 
 >
-> Frontend: Angular, Material, Bootstrap;
+> Frontend: TypeScript, Angular, Material, Bootstrap;
 > 
 > Database: SQLite (TODO: change to SQL Server/MySQL and use Redis)
 > 
