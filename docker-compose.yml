@@ -1,6 +1,6 @@
 ﻿services:
     webapi:
-        image: webapi
+        image: jwl0515/webapi:0.0.1
         ports:
          - 7284:8081
         volumes:
@@ -13,7 +13,7 @@
             - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/Certificates/aspnetapp.pfx
 
     client:
-        image: client
+        image: jwl0515/client:0.0.1
         ports:
             - 4200:4200
 

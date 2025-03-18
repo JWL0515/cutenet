@@ -1,7 +1,36 @@
 <div class="row">
   <section class="col-3 mt-2">
+    <h5 class="text-warning ms-3">Brands</h5>
+            <ul class="list-group my-3">
+              @for (brand of brands; track brand.id){
+                <li class="list-group-item d-flex justify-content-between align-items-center" 
+                >{{brand.name}}</li>
+              }
+            </ul>
+            <h5 class="text-warning ms-3">Types</h5>
+            <ul class="list-group my-3">
+              @for (category of categories; track category.id){
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+            >{{category.name}}</li>
+              }
+            </ul>
   </section>
   <section class="col-9">
+    
+      <div class="d-flex justify-content-end align-items-center pb-2 mb-2">
+        <div class="p-2"><h5 class="text-warning">Sort</h5></div>
+        <div><select class="form-select" (change)="onSortSelected($event)">
+          @for (sortOption of sortOptions; track $index){
+            <option  [selected]="queryparams.sortBy === sortOption.value"
+                    [value]="sortOption.value">
+                {{sortOption.name}}
+            </option>
+          }
+        </select></div>
+      
+    </div>
+    
+    
     <div class="row row-cols-3 g-3 mb-4">
       <!-- loop each product -->
       @for (product of products; track product.id){
@@ -19,7 +48,6 @@
                 <div>
                   {{product.price}} €
                 </div>
-
             </div>
           </div>
         </div>

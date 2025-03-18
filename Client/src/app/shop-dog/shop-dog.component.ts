@@ -62,5 +62,13 @@ export class ShopDogComponent implements OnInit {
     return this.http.get<DogProduct[]>('https://localhost:7284/api/Products', {params:params})
     .pipe(map(response => this.products=response))
   }
+
+  onSortSelected(event: any) {
+    // const params = this.shopService.getShopParams();
+    // params.sort = event.target.value;
+    // this.shopService.setShopParams(params);
+    // this.shopParams = params;
+    // this.getProducts();
+  }
 }
 
