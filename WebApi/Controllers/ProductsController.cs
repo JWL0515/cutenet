@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApi.Data;
 using WebApi.Entities;
 using WebApi.Helpers;
+using WebApi.Interfaces;
 using WebApi.Query;
 using WebApi.Services;
 
@@ -11,7 +12,7 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController(DogProductDbContext context, GenericRepository<Brand> brandRepo) : ControllerBase
+    public class ProductsController(DogProductDbContext context,IGenericRepository<Brand> brandRepo, IGenericRepository<Category> categoryRepo) : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetAllProducts([FromQuery] ProductQueryParameters queryParameters)
@@ -62,6 +63,12 @@ namespace WebApi.Controllers
         public async Task<ActionResult<IReadOnlyList<Brand>>> GetProductBrands()
         {
             return Ok(await brandRepo.ListAllAsync());
+        }
+
+        [HttpGet("categories")]
+        public async Task<ActionResult<IReadOnlyList<Category>>> GetProductCategories()
+        {
+            return Ok(await categoryRepo.ListAllAsync());
         }
     }
 }

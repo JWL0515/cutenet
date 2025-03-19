@@ -9,7 +9,7 @@
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - ASPNETCORE_HTTPS_PORTS=8081
-            - ASPNETCORE_Kestrel__Certificates__Default__Password=li1992515
+            - ASPNETCORE_Kestrel__Certificates__Default__Password=123456
             - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/Certificates/aspnetapp.pfx
 
     client:
