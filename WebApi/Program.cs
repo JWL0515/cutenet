@@ -43,6 +43,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped(typeof(IGenericRepository<Brand>), typeof(GenericRepository<Brand>));
+
 
 // To use AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
