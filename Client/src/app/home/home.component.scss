@@ -1,5 +1,9 @@
-img {
-    display: block; 
-    width: 100%;
+.container {
+    position: relative;
 }
 
+img {
+    width: 100vw;
+    height: 90vh;
+    object-fit: contain
+}

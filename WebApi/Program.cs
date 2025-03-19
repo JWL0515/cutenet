@@ -43,12 +43,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
 
 // To use AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-// For Angular
+// For Cors
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("CorsPolicy", policy =>
@@ -57,7 +60,7 @@ builder.Services.AddCors(opt =>
     });
 });
 
-//builder.Services.AddHealthChecks();
+
 
 var app = builder.Build();
 
@@ -69,8 +72,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-//app.UseStaticFiles();
-//app.UseHealthChecks("/health");
 
 app.UseCors("CorsPolicy");
 

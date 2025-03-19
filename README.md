@@ -12,6 +12,7 @@
 *  Pagination, sorting, searching, and filtering features are Developed (current only for Dog products)
 
 ## Quick Run locally with Docker
+
 * Download 2 Docker Images:
   
   https://hub.docker.com/r/jwl0515/client
