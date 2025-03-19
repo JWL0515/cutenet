@@ -1,7 +1,7 @@
 # Dog and Cat cloths Shopping Website 
 > Backend: C#, .Net Core, ASP.NET, Entity Framework Core, JWT; 
 >
-> Frontend: Angular, Material, Bootstrap;
+> Frontend: TypeScript, Angular, Material, Bootstrap;
 > 
 > Database: SQLite (TODO: change to SQL Server/MySQL and use Redis)
 > 
@@ -11,7 +11,8 @@
 *  **ASP.NET** Identity and **JWT** are used for user authentication
 *  Pagination, sorting, searching, and filtering features are Developed (current only for Dog products)
 
-## Quick test locally
+## Quick Run locally with Docker
+
 * Download 2 Docker Images:
   
   https://hub.docker.com/r/jwl0515/client
