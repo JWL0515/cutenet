@@ -1,5 +1,7 @@
 export class QueryParameter {
     page : number = 1;
-    pageSize: number = 3;
-    sortBy: string = "Id";
+    pageSize: number = 2;
+    sortBy: string = 'Id';
+    brand: string = '';
+    category: string = '';
   };

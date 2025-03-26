@@ -12,7 +12,6 @@ using WebApi.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -45,8 +44,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-
-
 // To use AutoMapper
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -59,8 +56,6 @@ builder.Services.AddCors(opt =>
         policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200");
     });
 });
-
-
 
 var app = builder.Build();
 

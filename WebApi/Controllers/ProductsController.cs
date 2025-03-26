@@ -30,7 +30,7 @@ namespace WebApi.Controllers
                 products = products.Where(p => p.Price <= queryParameters.MaxPrice.Value);
             }
 
-            // search
+            // search with name
             if (!string.IsNullOrEmpty(queryParameters.Brand))
             {
                 products = products.Where(p => p.Brand.Name.ToLower() == queryParameters.Brand.ToLower());

@@ -3,14 +3,17 @@
     <h5 class="text-warning ms-3">Brands</h5>
             <ul class="list-group my-3">
               @for (brand of brands; track brand.id){
-                <li class="list-group-item d-flex justify-content-between align-items-center" 
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+                    [value]="brand.id"
+                    (click)="onBrandSelected(brand.id)" 
                 >{{brand.name}}</li>
               }
             </ul>
-            <h5 class="text-warning ms-3">Types</h5>
+            <h5 class="text-warning ms-3">Categories</h5>
             <ul class="list-group my-3">
               @for (category of categories; track category.id){
                 <li class="list-group-item d-flex justify-content-between align-items-center"
+                
             >{{category.name}}</li>
               }
             </ul>
@@ -26,9 +29,9 @@
                 {{sortOption.name}}
             </option>
           }
-        </select></div>
-      
-    </div>
+        </select>
+        </div>
+      </div>
     
     
     <div class="row row-cols-3 g-3 mb-4">
@@ -55,11 +58,11 @@
     </div>
     <div>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                    [pageSize]="pageSize"
+                    [pageSize]="queryparams.pageSize"
                     [length]="12"
                     showFirstLastButtons
                     aria-label="Select page of periodic elements"
-                    [pageIndex]="currentPage"
+                    [pageIndex]="queryparams.page-1"
                     (page)="handlePageEvent($event)">
       </mat-paginator>
     </div>
