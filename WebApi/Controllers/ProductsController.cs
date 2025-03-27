@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Data;
+using WebApi.Dtos;
 using WebApi.Entities;
 using WebApi.Helpers;
 using WebApi.Interfaces;
@@ -14,8 +16,9 @@ namespace WebApi.Controllers
     [ApiController]
     public class ProductsController(DogProductDbContext context,IGenericRepository<Brand> brandRepo, IGenericRepository<Category> categoryRepo) : ControllerBase
     {
+        
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetAllProducts([FromQuery] ProductQueryParameters queryParameters)
+        public async Task<ActionResult<ProductsDto>> GetProducts([FromQuery] ProductQueryParameters queryParameters)
         {
             IQueryable<Product> products = context.Products.Include(p => p.Brand)
                 .Include(p => p.Category);
@@ -51,12 +54,22 @@ namespace WebApi.Controllers
                 }
             }
 
+            // get the total number of items
+            var productList = await products.ToListAsync();
+            var itemCount = productList.Count();
+
             // paginate
             products = products
             .Skip(queryParameters.PageSize * (queryParameters.Page - 1))
             .Take(queryParameters.PageSize);
 
-            return Ok(await products.ToListAsync());
+            var produtcsDto = new ProductsDto
+            {
+                itemCount = itemCount,
+                Products = await products.ToListAsync()
+            };
+
+            return Ok(produtcsDto);
         }
 
         [HttpGet("brands")]

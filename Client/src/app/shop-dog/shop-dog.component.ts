@@ -9,6 +9,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { Observable, map } from 'rxjs';
 import { Pagination } from '../models/pagination.type';
 import { ShopService } from '../services/shop.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-shop-dog',
@@ -24,6 +25,8 @@ export class ShopDogComponent implements OnInit {
     {name: 'Price: low to high', value: 'priceAsc'},
     {name: 'Price: high to low', value: 'priceDesc'}
   ]
+  // TODO: totalcount not correct!!
+  itemCount = 0;
 
   shopService = inject(ShopService);
 
@@ -44,17 +47,17 @@ export class ShopDogComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    console.log("ngOnInit page", this.queryparams.page);
-    console.log("ngOnInit pageSize", this.queryparams.pageSize);
     this.getProducts();
     this.getbrands();
     this.getCategories();
+    
   }
 
   getProducts() {
     this.shopService.getProducts().subscribe(
-      {next:(response:DogProduct[]) => this.products = response}
+      {next:(response) =>{console.log('products',response);this.itemCount=response.itemCount; this.products = response.products}}
       );
+    
   }
 
   onSortSelected(event: any) {
@@ -77,13 +80,24 @@ export class ShopDogComponent implements OnInit {
       );
   }
 
-  onBrandSelected(brandId: number) {
-    // let params = new HttpParams();
-    // params.brandId = brandId;
-    // params.pageNumber = 1;
-    // this.shopService.setShopParams(params);
-    // this.shopParams = params;
-    // this.getProducts();
+  onBrandSelected(brand: string) {
+    // doesn't matter when choose a brand, the  only the brand should be changed and page should be the first page
+    const params = this.shopService.getShopParams();
+    params.brand = brand;
+    params.page = 1;
+    this.shopService.setShopParams(params);
+    this.queryparams = params;
+    this.getProducts();
+  }
+
+  onCategorySelected(category: string) {
+    // doesn't matter when choose a category, the  only the category should be changed and page should be the first page
+    const params = this.shopService.getShopParams();
+    params.category = category;
+    params.page = 1;
+    this.shopService.setShopParams(params);
+    this.queryparams = params;
+    this.getProducts();
   }
 }
 
