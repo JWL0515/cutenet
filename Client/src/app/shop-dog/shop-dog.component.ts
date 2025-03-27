@@ -106,5 +106,7 @@ export class ShopDogComponent implements OnInit {
     this.queryparams = params;
     this.getProducts();
   }
+
+  onReset(){}
 }
 

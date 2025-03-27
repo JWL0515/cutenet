@@ -23,15 +23,15 @@ namespace WebApi.Controllers
             IQueryable<Product> products = context.Products.Include(p => p.Brand)
                 .Include(p => p.Category);
 
-            // filter
-            if (queryParameters.MinPrice != null)
-            {
-                products = products.Where(p => p.Price >= queryParameters.MinPrice.Value);
-            }
-            if (queryParameters.MaxPrice != null)
-            {
-                products = products.Where(p => p.Price <= queryParameters.MaxPrice.Value);
-            }
+            //// filter
+            //if (queryParameters.MinPrice != null)
+            //{
+            //    products = products.Where(p => p.Price >= queryParameters.MinPrice.Value);
+            //}
+            //if (queryParameters.MaxPrice != null)
+            //{
+            //    products = products.Where(p => p.Price <= queryParameters.MaxPrice.Value);
+            //}
 
             // search with name
             if (!string.IsNullOrEmpty(queryParameters.Brand))
