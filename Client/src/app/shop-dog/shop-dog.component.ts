@@ -25,25 +25,32 @@ export class ShopDogComponent implements OnInit {
     {name: 'Price: low to high', value: 'priceAsc'},
     {name: 'Price: high to low', value: 'priceDesc'}
   ]
-  // TODO: totalcount not correct!!
+  
   itemCount = 0;
 
   shopService = inject(ShopService);
-
   queryparams: QueryParameter;
+
   constructor() {
     this.queryparams = this.shopService.getShopParams();
   }
 
   handlePageEvent(pageEvent: PageEvent) {
-    console.log("event", pageEvent);
     const params = this.shopService.getShopParams();
-    console.log("params.page", params.page);
-    console.log("pageEvent.pageIndex", pageEvent.pageIndex);
-    params.page = pageEvent.pageIndex + 1;
-    this.shopService.setShopParams(params);
-    this.queryparams = params;
-    this.getProducts();
+    // if pageSize changed, reload size with changed pageSize; otherweis the pruduct-page will changed with params.page  
+    if (params.pageSize != pageEvent.pageSize){
+      params.page = 1;
+      params.pageSize = pageEvent.pageSize;
+      this.shopService.setShopParams(params);
+      this.queryparams = params;
+      this.getProducts();
+    }
+    else {
+      params.page = pageEvent.pageIndex + 1;
+      this.shopService.setShopParams(params);
+      this.queryparams = params;
+      this.getProducts();
+    }
   }
   
   ngOnInit(): void {
@@ -55,7 +62,7 @@ export class ShopDogComponent implements OnInit {
 
   getProducts() {
     this.shopService.getProducts().subscribe(
-      {next:(response) =>{console.log('products',response);this.itemCount=response.itemCount; this.products = response.products}}
+      {next:(response) =>{this.itemCount=response.itemCount; this.products = response.products}}
       );
     
   }
