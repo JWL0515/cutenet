@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using WebApi.Data;
 using WebApi.Dtos;
 using WebApi.Entities;
@@ -14,7 +15,8 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController(DogProductDbContext context,IGenericRepository<Brand> brandRepo, IGenericRepository<Category> categoryRepo) : ControllerBase
+    public class ProductsController(DogProductDbContext context,IGenericRepository<Brand> brandRepo, IGenericRepository<Category> categoryRepo,
+        IGenericRepository<Product> productRepo, IMapper mapper) : ControllerBase
     {
         
         [HttpGet]
@@ -43,7 +45,7 @@ namespace WebApi.Controllers
                 products = products.Where(p => p.Category.Name.ToLower() == queryParameters.Category.ToLower());
             }
 
-            // sort
+            // sort  NOT WORK FOR DECIMAL
             if (!string.IsNullOrEmpty(queryParameters.SortBy))
             {
                 if (typeof(Product).GetProperty(queryParameters.SortBy) != null)
@@ -53,6 +55,15 @@ namespace WebApi.Controllers
                         queryParameters.SortOrder);
                 }
             }
+
+            // SQLite doesn't natively support decimal data types
+            //if (!string.IsNullOrEmpty(queryParameters.SortBy))
+            //{
+            //    if (queryParameters.SortOrder == "desc")
+            //    {
+            //        products = products.OrderBy(product => product.Price);
+            //    }
+            //}
 
             // get the total number of items
             var productList = await products.ToListAsync();
@@ -70,6 +81,13 @@ namespace WebApi.Controllers
             };
 
             return Ok(produtcsDto);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> GetProductById(int id)
+        {
+            var product = await productRepo.GetByIdAsync(id);
+            return product;
         }
 
         [HttpGet("brands")]

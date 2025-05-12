@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="w-100">
+        </div>
+        <div class="col-6 mt-5">
+            <h2>{{product.name}}</h2>
+            <p style="font-size: 2em;">{{product.price}} €</p>
+            <div class="d-flex justify-content-start align-items-center">
+                <button mat-icon-button (click)="decrementQuantity()" [disabled]="quantity === 0"> 
+                    <mat-icon>do_not_disturb_on</mat-icon>
+                </button>
+                <span class="font-weight-bold" style="font-size: 1.5em;">
+                    {{quantity}}
+                </span>
+                <button mat-icon-button (click)="incrementQuantity()">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+                <button mat-button 
+                    (click)="addToBasket()"
+                    [disabled]="quantity === 0"
+                >Add to Basket</button>
+            </div>
+        </div>
+    </div>
+</div>

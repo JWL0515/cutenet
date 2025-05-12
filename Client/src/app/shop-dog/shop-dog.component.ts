@@ -10,6 +10,7 @@ import { Observable, map } from 'rxjs';
 import { Pagination } from '../models/pagination.type';
 import { ShopService } from '../services/shop.service';
 import { response } from 'express';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-shop-dog',
@@ -22,8 +23,9 @@ export class ShopDogComponent implements OnInit {
   brands: DogBrand[] = [];
   categories: DogCategory[] = [];
   sortOptions = [
-    {name: 'Price: low to high', value: 'priceAsc'},
-    {name: 'Price: high to low', value: 'priceDesc'}
+    {name: 'Alphabetical', value: 'Name'},
+    {name: 'Price: low to high', value: 'asc'},
+    {name: 'Price: high to low', value: 'desc'}
   ]
   
   itemCount = 0;
@@ -64,15 +66,15 @@ export class ShopDogComponent implements OnInit {
     this.shopService.getProducts().subscribe(
       {next:(response) =>{this.itemCount=response.itemCount; this.products = response.products}}
       );
-    
   }
 
   onSortSelected(event: any) {
-    // const params = this.shopService.getShopParams();
-    // params.sort = event.target.value;
-    // this.shopService.setShopParams(params);
-    // this.shopParams = params;
-    // this.getProducts();
+    const params = this.shopService.getShopParams();
+    params.sortBy = event.target.value;
+    console.log('event.target.value',event.target.value)
+    this.shopService.setShopParams(params);
+    this.queryparams = params;
+    this.getProducts();
   }
   
   getbrands() {
@@ -107,6 +109,10 @@ export class ShopDogComponent implements OnInit {
     this.getProducts();
   }
 
-  onReset(){}
+  onReset(){
+    this.queryparams = new QueryParameter();
+    this.shopService.setShopParams(this.queryparams);
+    this.getProducts();
+  }
 }
 

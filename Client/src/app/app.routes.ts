@@ -24,4 +24,8 @@ export const routes: Routes = [
         path: 'basket',
         loadComponent: () => import('./basket/basket.component').then((m) => m.BasketComponent),
       },
+      {
+        path: 'dog/:id',
+        loadComponent: () => import('./shared/product-details/product-details.component').then((m) => m.ProductDetailsComponent),
+      },
 ];

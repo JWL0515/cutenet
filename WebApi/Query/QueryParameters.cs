@@ -18,7 +18,7 @@
 
         // sort
         public string SortBy { get; set; } = "Id";
-        private string _sortOrder { get; set; } = "asc";
+        private string _sortOrder = "asc";
         public string SortOrder { 
             get
             {

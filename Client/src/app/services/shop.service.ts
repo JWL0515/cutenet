@@ -22,7 +22,8 @@ export class ShopService {
     if (this.queryparams.category !== '') params = params.append('category', this.queryparams.category);
     params = params.append('page', this.queryparams.page);
     params = params.append('pageSize', this.queryparams.pageSize); 
-    // params = params.append('sort', this.queryparams.sortBy);
+    params = params.append('sortBy', this.queryparams.sortBy);
+    params = params.append('sortOrder', this.queryparams.sortOrder);
 
     return this.http.get<Pagination<DogProduct[]>>('https://localhost:7284/api/Products', {params:params})
     }
