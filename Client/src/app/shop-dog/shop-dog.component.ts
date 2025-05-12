@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, Inject, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { DogProduct } from '../models/dogProduct.type';
 import { DogBrand } from '../models/dogBrand.type';
 import { DogCategory } from '../models/dogCategory.type';
@@ -8,6 +8,9 @@ import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/pag
 import {MatGridListModule} from '@angular/material/grid-list';
 import { Observable, map } from 'rxjs';
 import { Pagination } from '../models/pagination.type';
+import { ShopService } from '../services/shop.service';
+import { response } from 'express';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-shop-dog',
@@ -16,59 +19,100 @@ import { Pagination } from '../models/pagination.type';
   styleUrl: './shop-dog.component.scss'
 })
 export class ShopDogComponent implements OnInit {
-  currentPage = 0;
-  pageSize =3;
   products: DogProduct[] = [];
   brands: DogBrand[] = [];
   categories: DogCategory[] = [];
   sortOptions = [
-    {name: 'Price: low to high', value: 'priceAsc'},
-    {name: 'Price: high to low', value: 'priceDesc'}
+    {name: 'Alphabetical', value: 'Name'},
+    {name: 'Price: low to high', value: 'asc'},
+    {name: 'Price: high to low', value: 'desc'}
   ]
-  queryparams = new QueryParameter();
+  
+  itemCount = 0;
+
+  shopService = inject(ShopService);
+  queryparams: QueryParameter;
+
+  constructor() {
+    this.queryparams = this.shopService.getShopParams();
+  }
 
   handlePageEvent(pageEvent: PageEvent) {
-    console.log('handlePageEvent', pageEvent);
-    this.pageSize = pageEvent.pageSize;
-    this.currentPage = pageEvent.pageIndex;
-    console.log('currentPage', this.currentPage);
-    console.log('pageSize', pageEvent.pageSize);
-    this.getProducts(this.currentPage, this.pageSize).subscribe(
-      {next:(response) => { 
-        console.log('response', response);
-        console.log('products', this.products);}}
-      );
+    const params = this.shopService.getShopParams();
+    // if pageSize changed, reload size with changed pageSize; otherweis the pruduct-page will changed with params.page  
+    if (params.pageSize != pageEvent.pageSize){
+      params.page = 1;
+      params.pageSize = pageEvent.pageSize;
+      this.shopService.setShopParams(params);
+      this.queryparams = params;
+      this.getProducts();
+    }
+    else {
+      params.page = pageEvent.pageIndex + 1;
+      this.shopService.setShopParams(params);
+      this.queryparams = params;
+      this.getProducts();
+    }
   }
   
   ngOnInit(): void {
-    this.getProducts(this.currentPage, this.pageSize).subscribe(
-      response => { 
-        console.log('response', response);
-        console.log('products', this.products);
+    this.getProducts();
+    this.getbrands();
+    this.getCategories();
     
-    })
-    // this.products.paginator = this.paginator;
   }
 
-  http = inject(HttpClient);
-  // pagination?: Pagination<DogProduct[]>;
-  getProducts(pageIndex:number, pageSize:number):Observable<DogProduct[]> {
-    let params = new HttpParams();
-    params = params.append('page', pageIndex+1);
-    console.log("getProduts-pageIndex", pageIndex+1)
-    params = params.append('pageSize', pageSize); 
-    // params = params.append('sort', this.queryparams.sortBy); 
-    console.log(params)
-    return this.http.get<DogProduct[]>('https://localhost:7284/api/Products', {params:params})
-    .pipe(map(response => this.products=response))
+  getProducts() {
+    this.shopService.getProducts().subscribe(
+      {next:(response) =>{this.itemCount=response.itemCount; this.products = response.products}}
+      );
   }
 
   onSortSelected(event: any) {
-    // const params = this.shopService.getShopParams();
-    // params.sort = event.target.value;
-    // this.shopService.setShopParams(params);
-    // this.shopParams = params;
-    // this.getProducts();
+    const params = this.shopService.getShopParams();
+    params.sortBy = event.target.value;
+    console.log('event.target.value',event.target.value)
+    this.shopService.setShopParams(params);
+    this.queryparams = params;
+    this.getProducts();
+  }
+  
+  getbrands() {
+    this.shopService.getbrands().subscribe(
+      {next:(response:DogBrand[]) => this.brands = response}
+      );
+  }
+
+  getCategories() {
+    this.shopService.getCategories().subscribe(
+      {next:(response:DogCategory[]) => this.categories = response}
+      );
+  }
+
+  onBrandSelected(brand: string) {
+    // doesn't matter when choose a brand, the  only the brand should be changed and page should be the first page
+    const params = this.shopService.getShopParams();
+    params.brand = brand;
+    params.page = 1;
+    this.shopService.setShopParams(params);
+    this.queryparams = params;
+    this.getProducts();
+  }
+
+  onCategorySelected(category: string) {
+    // doesn't matter when choose a category, the  only the category should be changed and page should be the first page
+    const params = this.shopService.getShopParams();
+    params.category = category;
+    params.page = 1;
+    this.shopService.setShopParams(params);
+    this.queryparams = params;
+    this.getProducts();
+  }
+
+  onReset(){
+    this.queryparams = new QueryParameter();
+    this.shopService.setShopParams(this.queryparams);
+    this.getProducts();
   }
 }
 
